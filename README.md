@@ -18,6 +18,27 @@ These commands will install `paho-mqtt`, a Python library that enables MQTT func
 
 ~~ to see later, a script that does it all so we don't have to do it manually
 
+## MQTT Broker configuration (allow all IP addresses)
+To allow the MQTT broker to accept connections from all IP addresses (not just localhost), we need to follow these steps to modify the configuration file. This allows devices outside the local network to communicate with the broker.
+
+First, open the Mosquitto MQTT broker configuration file:
+```bash
+     sudo nano /etc/mosquitto/mosquitto.conf
+```
+Then add or update the following lines to allow connections from all IP addresses on port 1883:
+```bash
+     listener 1883 0.0.0.0
+     allow_anonymous true
+```
+
+`listener 1883 0.0.0.0` allows the broker to listen on all available network interfaces, not just localhost.
+`allow_anonymous true` allows all devices to connect to the broker without authentication.
+
+Now we have to restart the Mosquitto service to apply the changes:
+```bash
+     sudo systemctl restart mosquitto
+```
+
 ## Add MQTT configuration for a reading script
 Now we have, let's say a script, that reads temperature values from the sensor, we need to add the code that can publish these values to the mqtt broker
 
@@ -38,6 +59,9 @@ Now we have, let's say a script, that reads temperature values from the sensor, 
 ```
 This script establishes a connection to the MQTT broker, and the `send_to_mqtt()` function is used to publish sensor readings to the specified topic.
 
+For more detailed information on the Paho MQTT Python Client, we refered to the official Paho documentation:
+[Paho MQTT Python Client Documentation](https://www.eclipse.org/paho/index.php?page=clients/python/index.php)
+
 ## Subscribing to MQTT Topics
 Once the data is published by the Raspberry Pi, it can be retrieved by subscribing to the corresponding topic. To do this, we have to  subscribe to the topic using a service like `mosquitto_sub` or any MQTT client:
 
@@ -49,6 +73,7 @@ This allows us to monitor the data published by the Raspberry Pi in real time fr
 
 ## Running the script from a separate Ip adress
 In our case, we ran the sensor reading and publishing script under a different ip address on the Raspberry Pi to allow detection from anywhere. This was made possible by configuring the MQTT broker to allow all users in the configuration file.
+
 
 ```bash
      python3 sensor_reading_script.py
