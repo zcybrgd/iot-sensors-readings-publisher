@@ -26,3 +26,6 @@ now we have let's say a script that reads temperature values from the sensor, we
      MQTT_PORT = 1883  
      MQTT_TOPIC = "tank1/pond123/temperature/sensor456" # mqtt topic we want to publish in
 ```
+
+
+~~~~ to be finished later
