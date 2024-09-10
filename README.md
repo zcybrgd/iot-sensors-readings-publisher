@@ -66,7 +66,7 @@ For more detailed information on the Paho MQTT Python Client, we refered to the 
 Once the data is published by the Raspberry Pi, it can be retrieved by subscribing to the corresponding topic. To do this, we have to  subscribe to the topic using a service like `mosquitto_sub` or any MQTT client:
 
 ```bash 
-     mosquitto_sub -h your-mqtt-broker-ip -t "tank1/pond123/temperature/sensor456"
+     mosquitto_sub -h localhost -t "tank1/pond123/temperature/sensor456"
 ```
 
 This allows us to monitor the data published by the Raspberry Pi in real time from the main server.
